@@ -11,6 +11,7 @@ import {
   Tabs, 
   Tab, 
   IconButton, 
+  Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
