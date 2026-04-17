@@ -1,0 +1,604 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-sans,sans-serif);color:var(--color-text-primary);background:transparent;}
+.app{padding:12px 0;}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.app-title{font-size:16px;font-weight:500;}
+.app-sub{font-size:12px;color:var(--color-text-tertiary);margin-top:1px;}
+.nav{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap;}
+.nav-btn{padding:6px 14px;font-size:12px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;transition:all .15s;}
+.nav-btn.active{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary);}
+.kpi-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:16px;}
+.kpi{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px;}
+.kpi-l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px;}
+.kpi-v{font-size:20px;font-weight:500;}
+.kpi-s{font-size:10px;color:var(--color-text-tertiary);margin-top:1px;}
+.section{margin-bottom:18px;}
+.sec-title{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+.cat-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.cat-tab{padding:5px 12px;font-size:12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;}
+.cat-tab.active{border-color:transparent;}
+.cat-tab[data-cat="LCV"].active{background:#E1F5EE;color:#085041;border-color:#0F6E56;}
+.cat-tab[data-cat="PC"].active{background:#EEEDFE;color:#3C3489;border-color:#534AB7;}
+.cat-tab[data-cat="HT"].active{background:#FAEEDA;color:#633806;border-color:#854F0B;}
+.cat-tab[data-cat="SM"].active{background:#FAECE7;color:#712B13;border-color:#993C1D;}
+.model-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;}
+.model-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px;background:var(--color-background-primary);cursor:pointer;transition:border-color .15s;}
+.model-card:hover{border-color:var(--color-border-secondary);}
+.mc-ref{font-size:10px;color:var(--color-text-tertiary);font-family:var(--font-mono);}
+.mc-name{font-size:12px;font-weight:500;margin:2px 0 6px;}
+.mc-row{display:flex;justify-content:space-between;align-items:center;margin-top:3px;}
+.mc-label{font-size:10px;color:var(--color-text-tertiary);}
+.mc-val{font-size:11px;font-weight:500;}
+.badge{display:inline-block;padding:1px 7px;border-radius:12px;font-size:10px;font-weight:500;}
+.badge-ok{background:#EAF3DE;color:#27500A;}
+.badge-low{background:#FAEEDA;color:#633806;}
+.badge-crit{background:#FCEBEB;color:#791F1F;}
+.badge-pipe{background:#EEEDFE;color:#3C3489;}
+.supplier-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+.sup-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px;background:var(--color-background-primary);}
+.sup-name{font-size:13px;font-weight:500;margin-bottom:4px;}
+.sup-meta{font-size:11px;color:var(--color-text-secondary);margin-bottom:10px;}
+.progress-row{margin-bottom:8px;}
+.pr-top{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;}
+.pr-bar{height:6px;border-radius:3px;background:var(--color-background-secondary);overflow:hidden;}
+.pr-fill{height:100%;border-radius:3px;transition:width .4s;}
+.pfi-list{display:flex;flex-direction:column;gap:8px;}
+.pfi-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px;background:var(--color-background-primary);}
+.pfi-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+.pfi-ref{font-size:13px;font-weight:500;font-family:var(--font-mono);}
+.pfi-status{font-size:10px;padding:2px 8px;border-radius:12px;}
+.pfi-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;}
+.pfi-field{font-size:11px;}
+.pfi-fl{color:var(--color-text-tertiary);margin-bottom:1px;}
+.pfi-fv{font-weight:500;}
+.pfi-models{font-size:11px;border-top:0.5px solid var(--color-border-tertiary);padding-top:8px;}
+.pfi-model-row{display:flex;justify-content:space-between;padding:2px 0;color:var(--color-text-secondary);}
+.alert-list{display:flex;flex-direction:column;gap:6px;}
+.alert-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);}
+.alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.alert-info{flex:1;}
+.alert-model{font-size:12px;font-weight:500;}
+.alert-sub{font-size:10px;color:var(--color-text-tertiary);}
+.alert-action{font-size:11px;padding:3px 10px;border-radius:12px;border:0.5px solid var(--color-border-secondary);cursor:pointer;background:transparent;color:var(--color-text-secondary);}
+.screen{display:none;}
+.screen.active{display:block;}
+@media(prefers-color-scheme:dark){
+  .cat-tab[data-cat="LCV"].active{background:#085041;color:#9FE1CB;}
+  .cat-tab[data-cat="PC"].active{background:#3C3489;color:#CECBF6;}
+  .cat-tab[data-cat="HT"].active{background:#633806;color:#FAC775;}
+  .cat-tab[data-cat="SM"].active{background:#712B13;color:#F5C4B3;}
+  .badge-ok{background:#173404;color:#97C459;}
+  .badge-low{background:#412402;color:#EF9F27;}
+  .badge-crit{background:#501313;color:#F09595;}
+  .badge-pipe{background:#26215C;color:#AFA9EC;}
+}
+</style>
+
+<div class="app">
+<div class="top-bar">
+  <div>
+    <div class="app-title">JAC Vehicles — Import Dashboard</div>
+    <div class="app-sub">Supplier: JAC Motors · FY 2025 · All figures in USD</div>
+  </div>
+  <div style="font-size:11px;color:var(--color-text-tertiary);">Last updated: 16 Apr 2025</div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="showScreen('dashboard')">Dashboard</button>
+  <button class="nav-btn" onclick="showScreen('inventory')">Inventory</button>
+  <button class="nav-btn" onclick="showScreen('suppliers')">Suppliers</button>
+  <button class="nav-btn" onclick="showScreen('orders')">Orders (PFI)</button>
+  <button class="nav-btn" onclick="showScreen('alerts')">Alerts</button>
+</div>
+
+<div id="screen-dashboard" class="screen active">
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-l">Annual target coverage</div><div class="kpi-v" style="color:#1D9E75">62%</div><div class="kpi-s">vs 500 units committed</div></div>
+    <div class="kpi"><div class="kpi-l">Total units in stock</div><div class="kpi-v" style="color:#378ADD">187</div><div class="kpi-s">Across 36 models</div></div>
+    <div class="kpi"><div class="kpi-l">Pipeline units</div><div class="kpi-v" style="color:#7F77DD">64</div><div class="kpi-s">Orders in transit</div></div>
+    <div class="kpi"><div class="kpi-l">Low stock alerts</div><div class="kpi-v" style="color:#D85A30">8</div><div class="kpi-s">Models below threshold</div></div>
+    <div class="kpi"><div class="kpi-l">Open PFI orders</div><div class="kpi-v" style="color:#BA7517">3</div><div class="kpi-s">Pending shipment</div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">Category overview</div>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;">
+      <div style="border:0.5px solid #0F6E56;border-radius:var(--border-radius-md);padding:12px;background:#E1F5EE;">
+        <div style="font-size:11px;font-weight:500;color:#085041;margin-bottom:6px;">Light Commercial (LCV)</div>
+        <div style="font-size:10px;color:#0F6E56;">20 models · Trucks HFC series</div>
+        <div style="margin-top:8px;font-size:18px;font-weight:500;color:#085041;">82</div>
+        <div style="font-size:10px;color:#0F6E56;">units in stock</div>
+        <div style="margin-top:6px;height:4px;border-radius:2px;background:#9FE1CB;"><div style="width:68%;height:100%;border-radius:2px;background:#1D9E75;"></div></div>
+        <div style="font-size:10px;color:#0F6E56;margin-top:3px;">68% of target</div>
+      </div>
+      <div style="border:0.5px solid #534AB7;border-radius:var(--border-radius-md);padding:12px;background:#EEEDFE;">
+        <div style="font-size:11px;font-weight:500;color:#3C3489;margin-bottom:6px;">Passenger Cars (PC)</div>
+        <div style="font-size:10px;color:#534AB7;">11 models · JS / J7 series</div>
+        <div style="margin-top:8px;font-size:18px;font-weight:500;color:#3C3489;">74</div>
+        <div style="font-size:10px;color:#534AB7;">units in stock</div>
+        <div style="margin-top:6px;height:4px;border-radius:2px;background:#AFA9EC;"><div style="width:74%;height:100%;border-radius:2px;background:#7F77DD;"></div></div>
+        <div style="font-size:10px;color:#534AB7;margin-top:3px;">74% of target</div>
+      </div>
+      <div style="border:0.5px solid #854F0B;border-radius:var(--border-radius-md);padding:12px;background:#FAEEDA;">
+        <div style="font-size:11px;font-weight:500;color:#633806;margin-bottom:6px;">Heavy Trucks (HT)</div>
+        <div style="font-size:10px;color:#854F0B;">2 models · HFC3255 / HFC4180</div>
+        <div style="margin-top:8px;font-size:18px;font-weight:500;color:#633806;">18</div>
+        <div style="font-size:10px;color:#854F0B;">units in stock</div>
+        <div style="margin-top:6px;height:4px;border-radius:2px;background:#FAC775;"><div style="width:45%;height:100%;border-radius:2px;background:#BA7517;"></div></div>
+        <div style="font-size:10px;color:#854F0B;margin-top:3px;">45% of target</div>
+      </div>
+      <div style="border:0.5px solid #993C1D;border-radius:var(--border-radius-md);padding:12px;background:#FAECE7;">
+        <div style="font-size:11px;font-weight:500;color:#712B13;margin-bottom:6px;">Special Machinery (SM)</div>
+        <div style="font-size:10px;color:#993C1D;">3 models · RF8 / CPCD forklifts</div>
+        <div style="margin-top:8px;font-size:18px;font-weight:500;color:#712B13;">13</div>
+        <div style="font-size:10px;color:#993C1D;">units in stock</div>
+        <div style="margin-top:6px;height:4px;border-radius:2px;background:#F5C4B3;"><div style="width:52%;height:100%;border-radius:2px;background:#D85A30;"></div></div>
+        <div style="font-size:10px;color:#993C1D;margin-top:3px;">52% of target</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">Next order suggestions</div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);">
+        <div style="width:8px;height:8px;border-radius:50%;background:#E24B4A;flex-shrink:0;"></div>
+        <div style="flex:1;font-size:12px;"><span style="font-weight:500;">HFC3255K1R1</span> · 10T Dumper Truck 6x4 — only 3 units left, lead time 90 days</div>
+        <button class="alert-action" onclick="sendPrompt('Create a draft PFI order for HFC3255K1R1 10T Dumper Truck — suggest 10 units')">Draft PFI ↗</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);">
+        <div style="width:8px;height:8px;border-radius:50%;background:#E24B4A;flex-shrink:0;"></div>
+        <div style="flex:1;font-size:12px;"><span style="font-weight:500;">JS8-Flagship</span> · Luxury SUV — 2 units, below minimum 5-unit threshold</div>
+        <button class="alert-action" onclick="sendPrompt('Create a draft PFI order for JS8-Flagship SUV — suggest 8 units')">Draft PFI ↗</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);">
+        <div style="width:8px;height:8px;border-radius:50%;background:#BA7517;flex-shrink:0;"></div>
+        <div style="flex:1;font-size:12px;"><span style="font-weight:500;">HFC4180KR1K3</span> · Tractor Head 4x2 — 5 units, re-order point approaching</div>
+        <button class="alert-action" onclick="sendPrompt('Create a draft PFI for HFC4180KR1K3 Tractor Head — suggest 8 units')">Draft PFI ↗</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);">
+        <div style="width:8px;height:8px;border-radius:50%;background:#BA7517;flex-shrink:0;"></div>
+        <div style="flex:1;font-size:12px;"><span style="font-weight:500;">CPCD35</span> · 3.5T Forklift — 4 units, industrial demand rising</div>
+        <button class="alert-action" onclick="sendPrompt('Create a draft PFI for CPCD35 3.5T Forklift — suggest 6 units')">Draft PFI ↗</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-inventory" class="screen">
+  <div class="cat-tabs">
+    <button class="cat-tab active" data-cat="LCV" onclick="switchCat('LCV',this)">Light Commercial (LCV)</button>
+    <button class="cat-tab" data-cat="PC" onclick="switchCat('PC',this)">Passenger Cars (PC)</button>
+    <button class="cat-tab" data-cat="HT" onclick="switchCat('HT',this)">Heavy Trucks (HT)</button>
+    <button class="cat-tab" data-cat="SM" onclick="switchCat('SM',this)">Special Machinery (SM)</button>
+  </div>
+
+  <div id="cat-LCV" class="model-grid">
+    <div class="model-card" onclick="sendPrompt('Show me detailed FOB price history, stock, and order pipeline for JAC HFC 1020-B 1.7T Plateau Blue truck')">
+      <div class="mc-ref">HFC 1020-B</div><div class="mc-name">1.7T Plateau – Blue</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">12 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+6</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$7,800</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me detailed FOB price history, stock, and order pipeline for JAC HFC 1020-W 1.7T Plateau White truck')">
+      <div class="mc-ref">HFC 1020-W</div><div class="mc-name">1.7T Plateau – White</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">9 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+4</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$7,800</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me detailed FOB price history, stock, and order pipeline for JAC HFC 5040-B 2T Fourgon Blue')">
+      <div class="mc-ref">HFC 5040-B</div><div class="mc-name">2T Fourgon – Blue</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-low">4 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+8</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$8,400</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me detailed FOB price history, stock, and order pipeline for JAC HFC 5040-W 2T Fourgon White')">
+      <div class="mc-ref">HFC 5040-W</div><div class="mc-name">2T Fourgon – White</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">7 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+4</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$8,400</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me detailed FOB price history, stock, and order pipeline for JAC HFC 1042-B 3T Plateau Blue')">
+      <div class="mc-ref">HFC 1042-B</div><div class="mc-name">3T Plateau – Blue</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">8 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+5</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$9,200</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me detailed FOB price history, stock, and order pipeline for JAC HFC 1042-W 3T Plateau White')">
+      <div class="mc-ref">HFC 1042-W</div><div class="mc-name">3T Plateau – White</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-low">3 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+6</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$9,200</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me detailed FOB price history, stock, and order pipeline for JAC HFC 5042-B 3T Fourgon Blue')">
+      <div class="mc-ref">HFC 5042-B</div><div class="mc-name">3T Fourgon – Blue</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">6 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+0</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$9,800</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me detailed FOB price history, stock, and order pipeline for JAC HFC 5042-W 3T Fourgon White')">
+      <div class="mc-ref">HFC 5042-W</div><div class="mc-name">3T Fourgon – White</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">5 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+4</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$9,800</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me detailed FOB price history for JAC HFC 1071-B 4.2T Plateau Blue')">
+      <div class="mc-ref">HFC 1071-B</div><div class="mc-name">4.2T Plateau – Blue</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">7 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+3</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$11,500</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me detailed FOB price history for JAC HFC 1071-W 4.2T Plateau White')">
+      <div class="mc-ref">HFC 1071-W</div><div class="mc-name">4.2T Plateau – White</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-low">3 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+5</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$11,500</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me detailed FOB price history for JAC HFC 3071-B 4.2T Benne Blue')">
+      <div class="mc-ref">HFC 3071-B</div><div class="mc-name">4.2T Benne – Blue</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">5 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+0</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$12,200</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me detailed FOB price history for JAC HFC 3071-W 4.2T Benne White')">
+      <div class="mc-ref">HFC 3071-W</div><div class="mc-name">4.2T Benne – White</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">4 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+4</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$12,200</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB history for JAC HFC 5071-B 4.2T Fourgon Blue')">
+      <div class="mc-ref">HFC 5071-B</div><div class="mc-name">4.2T Fourgon – Blue</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">6 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+2</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$12,600</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB history for JAC HFC 5071-W 4.2T Fourgon White')">
+      <div class="mc-ref">HFC 5071-W</div><div class="mc-name">4.2T Fourgon – White</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">4 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+4</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$12,600</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB history for JAC HFC1090-B 4.8T Plateau Blue')">
+      <div class="mc-ref">HFC1090-B</div><div class="mc-name">4.8T Plateau – Blue</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-low">3 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+6</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$13,400</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB history for JAC HFC1090-W 4.8T Plateau White')">
+      <div class="mc-ref">HFC1090-W</div><div class="mc-name">4.8T Plateau – White</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">5 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+3</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$13,400</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB history for JAC HFC 1120-B 7T Plateau Blue')">
+      <div class="mc-ref">HFC 1120-B</div><div class="mc-name">7T Plateau – Blue</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">6 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+0</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$15,800</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB history for JAC HFC 1120-W 7T Plateau White')">
+      <div class="mc-ref">HFC 1120-W</div><div class="mc-name">7T Plateau – White</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">5 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+4</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$15,800</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB history for JAC HFC5120-B 7T Fourgon Blue')">
+      <div class="mc-ref">HFC5120-B</div><div class="mc-name">7T Fourgon – Blue</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">6 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+2</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$16,500</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB history for JAC HFC5120-W 7T Fourgon White')">
+      <div class="mc-ref">HFC5120-W</div><div class="mc-name">7T Fourgon – White</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-low">3 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+5</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$16,500</span></div>
+    </div>
+  </div>
+
+  <div id="cat-PC" class="model-grid" style="display:none;">
+    <div class="model-card" onclick="sendPrompt('Show me FOB price 3-year history, current stock and pipeline for JAC JS2 Intelligent SUV HFC7151')">
+      <div class="mc-ref">HFC7151</div><div class="mc-name">JS2 – Intelligent</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">8 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+3</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$14,200</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB price 3-year history and stock for JAC JS3 Flagship SUV')">
+      <div class="mc-ref">JS3-Flagship</div><div class="mc-name">JS3 – Flagship</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">6 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+4</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$17,500</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB price 3-year history and stock for JAC JS4 Luxury SUV')">
+      <div class="mc-ref">JS4-Luxury</div><div class="mc-name">JS4 – Luxury</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">9 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+5</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$19,800</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB price 3-year history and stock for JAC JS4 Flagship SUV HFC7152')">
+      <div class="mc-ref">HFC7152</div><div class="mc-name">JS4 – Flagship</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">7 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+2</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$21,400</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB price 3-year history and stock for JAC JS5 Luxury SUV')">
+      <div class="mc-ref">JS5-Luxury</div><div class="mc-name">JS5 – Luxury</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">8 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+4</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$22,900</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB price 3-year history and stock for JAC JS5 Intelligent SUV')">
+      <div class="mc-ref">JS5-Intelligent</div><div class="mc-name">JS5 – Intelligent</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-low">4 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+6</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$24,500</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB price 3-year history and stock for JAC JS6 Advance SUV HFC6463')">
+      <div class="mc-ref">HFC6463</div><div class="mc-name">JS6 – Advance</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">10 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+3</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$26,800</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB price 3-year history and stock for JAC J7 Luxury')">
+      <div class="mc-ref">J7-Luxury</div><div class="mc-name">J7 – Luxury</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">6 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+2</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$28,400</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB price 3-year history and stock for JAC J7 Flagship')">
+      <div class="mc-ref">J7-Flagship</div><div class="mc-name">J7 – Flagship</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-low">3 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+4</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$31,200</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB price 3-year history and stock for JAC JS8 Luxury')">
+      <div class="mc-ref">JS8-Luxury</div><div class="mc-name">JS8 – Luxury</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">5 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+3</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$34,600</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me FOB price 3-year history and stock for JAC JS8 Flagship')">
+      <div class="mc-ref">JS8-Flagship</div><div class="mc-name">JS8 – Flagship</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-crit">2 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+0</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$37,800</span></div>
+    </div>
+  </div>
+
+  <div id="cat-HT" class="model-grid" style="display:none;">
+    <div class="model-card" onclick="sendPrompt('Show me full detail for JAC HFC3255K1R1 10T Dumper Truck 6x4 — FOB 3-year history, stock, pipeline, and reorder suggestion')">
+      <div class="mc-ref">HFC3255K1R1</div><div class="mc-name">10T Dumper Truck 6×4</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-crit">3 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+5</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$42,000</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me full detail for JAC HFC4180KR1K3 Tractor Head 4x2 — FOB 3-year history, stock, pipeline, and reorder suggestion')">
+      <div class="mc-ref">HFC4180KR1K3</div><div class="mc-name">Tractor Head 4×2</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-low">5 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+3</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$38,500</span></div>
+    </div>
+  </div>
+
+  <div id="cat-SM" class="model-grid" style="display:none;">
+    <div class="model-card" onclick="sendPrompt('Show me full detail for JAC RF8 Hybrid Van — FOB 3-year history, stock, pipeline, and reorder suggestion')">
+      <div class="mc-ref">RF8</div><div class="mc-name">RF8 Hybrid Van</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-ok">5 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+2</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$18,500</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me full detail for JAC CPCD30 3T Forklift — FOB 3-year history, stock, pipeline, and reorder suggestion')">
+      <div class="mc-ref">CPCD30</div><div class="mc-name">3T Forklift</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-low">4 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+3</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$11,800</span></div>
+    </div>
+    <div class="model-card" onclick="sendPrompt('Show me full detail for JAC CPCD35 3.5T Forklift — FOB 3-year history, stock, pipeline, and reorder suggestion')">
+      <div class="mc-ref">CPCD35</div><div class="mc-name">3.5T Forklift</div>
+      <div class="mc-row"><span class="mc-label">Stock</span><span class="badge badge-low">4 units</span></div>
+      <div class="mc-row"><span class="mc-label">Pipeline</span><span class="badge badge-pipe">+0</span></div>
+      <div class="mc-row"><span class="mc-label">FOB 2024</span><span class="mc-val">$13,200</span></div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-suppliers" class="screen">
+  <div class="supplier-grid">
+    <div class="sup-card">
+      <div class="sup-name">JAC Motors — LCV Division</div>
+      <div class="sup-meta">Origin: China · Payment: T/T · Lead time: 75 days</div>
+      <div class="progress-row">
+        <div class="pr-top"><span>HFC Trucks (all series)</span><span style="font-weight:500;color:#1D9E75">68%</span></div>
+        <div class="pr-bar"><div class="pr-fill" style="width:68%;background:#1D9E75;"></div></div>
+        <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:2px;">136 / 200 units committed</div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+        <span style="font-size:10px;padding:2px 8px;border-radius:12px;background:#EAF3DE;color:#27500A;">20 active models</span>
+        <span style="font-size:10px;padding:2px 8px;border-radius:12px;background:#EEEDFE;color:#3C3489;">2 open PFIs</span>
+      </div>
+    </div>
+    <div class="sup-card">
+      <div class="sup-name">JAC Motors — SUV / Passenger</div>
+      <div class="sup-meta">Origin: China · Payment: LC · Lead time: 60 days</div>
+      <div class="progress-row">
+        <div class="pr-top"><span>JS / J7 / JS8 series</span><span style="font-weight:500;color:#7F77DD">74%</span></div>
+        <div class="pr-bar"><div class="pr-fill" style="width:74%;background:#7F77DD;"></div></div>
+        <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:2px;">148 / 200 units committed</div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+        <span style="font-size:10px;padding:2px 8px;border-radius:12px;background:#EAF3DE;color:#27500A;">11 active models</span>
+        <span style="font-size:10px;padding:2px 8px;border-radius:12px;background:#EEEDFE;color:#3C3489;">1 open PFI</span>
+      </div>
+    </div>
+    <div class="sup-card">
+      <div class="sup-name">JAC Motors — Heavy Equipment</div>
+      <div class="sup-meta">Origin: China · Payment: T/T · Lead time: 90 days</div>
+      <div class="progress-row">
+        <div class="pr-top"><span>Dumper + Tractor Head</span><span style="font-weight:500;color:#BA7517">45%</span></div>
+        <div class="pr-bar"><div class="pr-fill" style="width:45%;background:#BA7517;"></div></div>
+        <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:2px;">45 / 100 units committed</div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+        <span style="font-size:10px;padding:2px 8px;border-radius:12px;background:#FCEBEB;color:#791F1F;">Below target</span>
+        <span style="font-size:10px;padding:2px 8px;border-radius:12px;background:#EEEDFE;color:#3C3489;">0 open PFIs</span>
+      </div>
+    </div>
+    <div class="sup-card">
+      <div class="sup-name">JAC Motors — Special Machinery</div>
+      <div class="sup-meta">Origin: China · Payment: CAD · Lead time: 50 days</div>
+      <div class="progress-row">
+        <div class="pr-top"><span>RF8 Van + Forklifts</span><span style="font-weight:500;color:#D85A30">52%</span></div>
+        <div class="pr-bar"><div class="pr-fill" style="width:52%;background:#D85A30;"></div></div>
+        <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:2px;">26 / 50 units committed</div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+        <span style="font-size:10px;padding:2px 8px;border-radius:12px;background:#FAEEDA;color:#633806;">Needs attention</span>
+        <span style="font-size:10px;padding:2px 8px;border-radius:12px;background:#EEEDFE;color:#3C3489;">0 open PFIs</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-orders" class="screen">
+  <div class="pfi-list">
+    <div class="pfi-card">
+      <div class="pfi-head">
+        <div>
+          <div class="pfi-ref">PFI-2025-0041</div>
+          <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:2px;">JAC Motors · Issued 02 Mar 2025</div>
+        </div>
+        <span class="pfi-status" style="background:#EAF3DE;color:#27500A;">Shipped</span>
+      </div>
+      <div class="pfi-body">
+        <div class="pfi-field"><div class="pfi-fl">FOB Total</div><div class="pfi-fv">$186,400</div></div>
+        <div class="pfi-field"><div class="pfi-fl">Freight</div><div class="pfi-fv">$14,200</div></div>
+        <div class="pfi-field"><div class="pfi-fl">Containers</div><div class="pfi-fv">4 × 40HQ</div></div>
+        <div class="pfi-field"><div class="pfi-fl">Declared value</div><div class="pfi-fv">$198,000</div></div>
+        <div class="pfi-field"><div class="pfi-fl">Payment mode</div><div class="pfi-fv">T/T 30% adv.</div></div>
+        <div class="pfi-field"><div class="pfi-fl">CIF Total</div><div class="pfi-fv">$200,600</div></div>
+      </div>
+      <div class="pfi-models">
+        <div style="font-size:10px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:4px;">Models included</div>
+        <div class="pfi-model-row"><span>HFC 1020-B · 1.7T Plateau Blue</span><span>× 8 units — $7,800 ea</span></div>
+        <div class="pfi-model-row"><span>HFC 5040-B · 2T Fourgon Blue</span><span>× 6 units — $8,400 ea</span></div>
+        <div class="pfi-model-row"><span>HFC 1042-B · 3T Plateau Blue</span><span>× 6 units — $9,200 ea</span></div>
+        <div class="pfi-model-row"><span>HFC 5042-W · 3T Fourgon White</span><span>× 4 units — $9,800 ea</span></div>
+      </div>
+    </div>
+
+    <div class="pfi-card">
+      <div class="pfi-head">
+        <div>
+          <div class="pfi-ref">PFI-2025-0038</div>
+          <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:2px;">JAC Motors · Issued 14 Feb 2025</div>
+        </div>
+        <span class="pfi-status" style="background:#EEEDFE;color:#3C3489;">In transit</span>
+      </div>
+      <div class="pfi-body">
+        <div class="pfi-field"><div class="pfi-fl">FOB Total</div><div class="pfi-fv">$224,600</div></div>
+        <div class="pfi-field"><div class="pfi-fl">Freight</div><div class="pfi-fv">$9,800</div></div>
+        <div class="pfi-field"><div class="pfi-fl">Containers</div><div class="pfi-fv">2 × 40HQ</div></div>
+        <div class="pfi-field"><div class="pfi-fl">Declared value</div><div class="pfi-fv">$231,000</div></div>
+        <div class="pfi-field"><div class="pfi-fl">Payment mode</div><div class="pfi-fv">LC at sight</div></div>
+        <div class="pfi-field"><div class="pfi-fl">CIF Total</div><div class="pfi-fv">$234,400</div></div>
+      </div>
+      <div class="pfi-models">
+        <div style="font-size:10px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:4px;">Models included</div>
+        <div class="pfi-model-row"><span>JS4-Luxury · SUV</span><span>× 5 units — $19,800 ea</span></div>
+        <div class="pfi-model-row"><span>JS5-Luxury · SUV</span><span>× 4 units — $22,900 ea</span></div>
+        <div class="pfi-model-row"><span>HFC6463 · JS6 Advance</span><span>× 3 units — $26,800 ea</span></div>
+        <div class="pfi-model-row"><span>JS8-Luxury · SUV</span><span>× 2 units — $34,600 ea</span></div>
+      </div>
+    </div>
+
+    <div class="pfi-card">
+      <div class="pfi-head">
+        <div>
+          <div class="pfi-ref">PFI-2025-0033</div>
+          <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:2px;">JAC Motors · Issued 20 Jan 2025</div>
+        </div>
+        <span class="pfi-status" style="background:#FAEEDA;color:#633806;">Confirmed</span>
+      </div>
+      <div class="pfi-body">
+        <div class="pfi-field"><div class="pfi-fl">FOB Total</div><div class="pfi-fv">$164,000</div></div>
+        <div class="pfi-field"><div class="pfi-fl">Freight</div><div class="pfi-fv">$18,500</div></div>
+        <div class="pfi-field"><div class="pfi-fl">Containers</div><div class="pfi-fv">3 × 40OT</div></div>
+        <div class="pfi-field"><div class="pfi-fl">Declared value</div><div class="pfi-fv">$176,000</div></div>
+        <div class="pfi-field"><div class="pfi-fl">Payment mode</div><div class="pfi-fv">T/T 100% BL</div></div>
+        <div class="pfi-field"><div class="pfi-fl">CIF Total</div><div class="pfi-fv">$182,500</div></div>
+      </div>
+      <div class="pfi-models">
+        <div style="font-size:10px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:4px;">Models included</div>
+        <div class="pfi-model-row"><span>HFC3255K1R1 · 10T Dumper 6×4</span><span>× 3 units — $42,000 ea</span></div>
+        <div class="pfi-model-row"><span>HFC4180KR1K3 · Tractor Head 4×2</span><span>× 2 units — $38,500 ea</span></div>
+        <div class="pfi-model-row"><span>CPCD30 · 3T Forklift</span><span>× 2 units — $11,800 ea</span></div>
+        <div class="pfi-model-row"><span>CPCD35 · 3.5T Forklift</span><span>× 2 units — $13,200 ea</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-alerts" class="screen">
+  <div class="alert-list">
+    <div class="alert-row">
+      <div class="alert-dot" style="background:#E24B4A;"></div>
+      <div class="alert-info"><div class="alert-model">HFC3255K1R1 · 10T Dumper 6×4</div><div class="alert-sub">3 units remaining · lead time 90 days · CRITICAL</div></div>
+      <button class="alert-action" onclick="sendPrompt('Create a PFI draft order for 10 units of HFC3255K1R1 10T Dumper Truck 6x4 from JAC Motors')">Draft PFI ↗</button>
+    </div>
+    <div class="alert-row">
+      <div class="alert-dot" style="background:#E24B4A;"></div>
+      <div class="alert-info"><div class="alert-model">JS8-Flagship · Luxury SUV</div><div class="alert-sub">2 units remaining · no pipeline · CRITICAL</div></div>
+      <button class="alert-action" onclick="sendPrompt('Create a PFI draft order for 8 units of JS8-Flagship SUV from JAC Motors')">Draft PFI ↗</button>
+    </div>
+    <div class="alert-row">
+      <div class="alert-dot" style="background:#BA7517;"></div>
+      <div class="alert-info"><div class="alert-model">HFC 1042-W · 3T Plateau White</div><div class="alert-sub">3 units remaining · 6 in pipeline</div></div>
+      <button class="alert-action" onclick="sendPrompt('Add HFC 1042-W 3T Plateau White to next PFI order — suggest 8 units')">Add to order ↗</button>
+    </div>
+    <div class="alert-row">
+      <div class="alert-dot" style="background:#BA7517;"></div>
+      <div class="alert-info"><div class="alert-model">HFC 5040-B · 2T Fourgon Blue</div><div class="alert-sub">4 units remaining · 8 in pipeline</div></div>
+      <button class="alert-action" onclick="sendPrompt('Add HFC 5040-B 2T Fourgon Blue to next PFI order')">Add to order ↗</button>
+    </div>
+    <div class="alert-row">
+      <div class="alert-dot" style="background:#BA7517;"></div>
+      <div class="alert-info"><div class="alert-model">CPCD35 · 3.5T Forklift</div><div class="alert-sub">4 units remaining · no pipeline</div></div>
+      <button class="alert-action" onclick="sendPrompt('Create a PFI draft for 6 units of CPCD35 3.5T Forklift from JAC Motors')">Draft PFI ↗</button>
+    </div>
+    <div class="alert-row">
+      <div class="alert-dot" style="background:#BA7517;"></div>
+      <div class="alert-info"><div class="alert-model">JS5-Intelligent · SUV</div><div class="alert-sub">4 units remaining · 6 in pipeline</div></div>
+      <button class="alert-action" onclick="sendPrompt('Add JS5-Intelligent to next PFI order for passenger cars')">Add to order ↗</button>
+    </div>
+    <div class="alert-row">
+      <div class="alert-dot" style="background:#BA7517;"></div>
+      <div class="alert-info"><div class="alert-model">HFC1090-B · 4.8T Plateau Blue</div><div class="alert-sub">3 units remaining · 6 in pipeline</div></div>
+      <button class="alert-action" onclick="sendPrompt('Add HFC1090-B to next LCV PFI order')">Add to order ↗</button>
+    </div>
+    <div class="alert-row">
+      <div class="alert-dot" style="background:#BA7517;"></div>
+      <div class="alert-info"><div class="alert-model">HFC4180KR1K3 · Tractor Head 4×2</div><div class="alert-sub">5 units · approaching reorder point · 90-day lead time</div></div>
+      <button class="alert-action" onclick="sendPrompt('Create a PFI draft for 8 units of HFC4180KR1K3 Tractor Head 4x2 from JAC Motors')">Draft PFI ↗</button>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+function switchCat(cat,el){
+  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  ['LCV','PC','HT','SM'].forEach(c=>{
+    const g=document.getElementById('cat-'+c);
+    if(g) g.style.display=c===cat?'grid':'none';
+  });
+}
+</script>
