@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Typography, 
-  Grid, 
-  Card, 
-  CardContent, 
-  TextField, 
-  Button, 
-  Chip, 
-  Tabs, 
-  Tab, 
-  IconButton, 
+import {
+  Box,
+  Typography,
+
+  Card,
+  CardContent,
+  TextField,
+  Button,
+  Chip,
+  Grid,
+  Tabs,
+  Tab,
+  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -79,7 +80,7 @@ const InventoryPage: React.FC = () => {
 
   const handleCreateModel = async () => {
     if (!validateForm()) return;
-    
+
     try {
       setActionLoading(true);
       await API.post('/models', newModel);
@@ -133,8 +134,8 @@ const InventoryPage: React.FC = () => {
             sx={{ width: 260, bgcolor: 'white', '& .MuiOutlinedInput-root': { borderRadius: 3 } }}
           />
           {user.role === 'superadmin' && (
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               startIcon={<PackagePlus size={18} />}
               onClick={() => setOpen(true)}
               sx={{ borderRadius: 3, height: 40, px: 3 }}
@@ -145,9 +146,9 @@ const InventoryPage: React.FC = () => {
         </Box>
       </Box>
 
-      <Tabs 
-        value={category} 
-        onChange={(_, v) => setCategory(v)} 
+      <Tabs
+        value={category}
+        onChange={(_, v) => setCategory(v)}
         sx={{ mb: 4, borderBottom: '1px solid #E2E8F0' }}
       >
         <Tab label="All Units" value="ALL" />
@@ -159,7 +160,7 @@ const InventoryPage: React.FC = () => {
 
       <Grid container spacing={3}>
         {loading ? (
-          [1,2,3,4,5,6,7,8].map(i => (
+          [1, 2, 3, 4, 5, 6, 7, 8].map(i => (
             <Grid item xs={12} sm={6} md={3} key={i}>
               <Skeleton variant="rectangular" height={220} sx={{ borderRadius: 4 }} />
             </Grid>
@@ -167,9 +168,9 @@ const InventoryPage: React.FC = () => {
         ) : filteredModels.length > 0 ? (
           filteredModels.map((model) => (
             <Grid item xs={12} sm={6} md={3} key={model._id}>
-              <Card sx={{ height: '100%', borderRadius: 4, border: '1px solid #e2e8f0', transition: 'all 0.2s', '&:hover': { boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)', transform: 'translateY(-4px)' } }}>
-                <CardContent>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+              <Card sx={{ height: '100%', borderRadius: 5, border: '1px solid rgba(226, 232, 240, 0.7)', transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', '&:hover': { boxShadow: '0 20px 25px -5px rgba(0,0,0,0.05)', transform: 'translateY(-4px)' }, overflow: 'hidden' }}>
+                <CardContent sx={{ p: 3 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                     <Typography variant="caption" sx={{ fontFamily: 'monospace', fontWeight: 700, px: 1, py: 0.5, bgcolor: '#F1F5F9', borderRadius: 1.5, color: 'primary.main' }}>
                       {model.code}
                     </Typography>
@@ -180,14 +181,14 @@ const InventoryPage: React.FC = () => {
                     )}
                   </Box>
                   <Typography variant="h4" sx={{ fontWeight: 800, mb: 2 }}>{model.name}</Typography>
-                  
+
                   <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: 3, mb: 2 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                       <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>Current Stock</Typography>
-                      <Chip 
-                        label={model.stock <= model.threshold ? 'LOW' : 'STABLE'} 
-                        size="small" 
-                        color={model.stock <= model.threshold ? 'error' : 'success'} 
+                      <Chip
+                        label={model.stock <= model.threshold ? 'LOW' : 'STABLE'}
+                        size="small"
+                        color={model.stock <= model.threshold ? 'error' : 'success'}
                         sx={{ height: 18, fontSize: '0.65rem', fontWeight: 800 }}
                       />
                     </Box>
@@ -226,9 +227,9 @@ const InventoryPage: React.FC = () => {
         <DialogTitle sx={{ fontWeight: 800, px: 3, pt: 3 }}>Onboard New Model</DialogTitle>
         <DialogContent sx={{ px: 3 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5, mt: 1 }}>
-            <TextField label="Vehicle Code" fullWidth size="small" placeholder="e.g. JAC-N55-2025" value={newModel.code} onChange={(e) => setNewModel({...newModel, code: e.target.value.toUpperCase()})} error={!!formErrors.code} helperText={formErrors.code} />
-            <TextField label="Model Full Name" fullWidth size="small" value={newModel.name} onChange={(e) => setNewModel({...newModel, name: e.target.value})} error={!!formErrors.name} helperText={formErrors.name} />
-            <TextField select label="Category" fullWidth size="small" value={newModel.category} onChange={(e) => setNewModel({...newModel, category: e.target.value})}>
+            <TextField label="Vehicle Code" fullWidth size="small" placeholder="e.g. JAC-N55-2025" value={newModel.code} onChange={(e) => setNewModel({ ...newModel, code: e.target.value.toUpperCase() })} error={!!formErrors.code} helperText={formErrors.code} />
+            <TextField label="Model Full Name" fullWidth size="small" value={newModel.name} onChange={(e) => setNewModel({ ...newModel, name: e.target.value })} error={!!formErrors.name} helperText={formErrors.name} />
+            <TextField select label="Category" fullWidth size="small" value={newModel.category} onChange={(e) => setNewModel({ ...newModel, category: e.target.value })}>
               <MenuItem value="LCV">Light Commercial (LCV)</MenuItem>
               <MenuItem value="PC">Passenger car (PC)</MenuItem>
               <MenuItem value="HT">Heavy Truck (HT)</MenuItem>
@@ -236,10 +237,10 @@ const InventoryPage: React.FC = () => {
             </TextField>
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <TextField label="Initial Stock" type="number" fullWidth size="small" value={newModel.stock} onChange={(e) => setNewModel({...newModel, stock: parseInt(e.target.value)})} />
+                <TextField label="Initial Stock" type="number" fullWidth size="small" value={newModel.stock} onChange={(e) => setNewModel({ ...newModel, stock: parseInt(e.target.value) })} />
               </Grid>
               <Grid item xs={6}>
-                <TextField label="FOB Price (₹)" type="number" fullWidth size="small" value={newModel.fobPrice} onChange={(e) => setNewModel({...newModel, fobPrice: parseInt(e.target.value)})} error={!!formErrors.fobPrice} helperText={formErrors.fobPrice} />
+                <TextField label="FOB Price (₹)" type="number" fullWidth size="small" value={newModel.fobPrice} onChange={(e) => setNewModel({ ...newModel, fobPrice: parseInt(e.target.value) })} error={!!formErrors.fobPrice} helperText={formErrors.fobPrice} />
               </Grid>
             </Grid>
           </Box>

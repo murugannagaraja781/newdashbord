@@ -236,17 +236,17 @@ const OrdersPage: React.FC = () => {
           ))}
         </Grid>
       ) : (
-        <TableContainer component={Paper} sx={{ borderRadius: 4, border: '1px solid #E2E8F0', boxShadow: 'none' }}>
+        <TableContainer component={Paper} elevation={0} sx={{ borderRadius: 5, border: '1px solid #E2E8F0', overflow: 'hidden' }}>
           <Table>
-            <TableHead sx={{ bgcolor: '#F8FAFC' }}>
+            <TableHead sx={{ bgcolor: '#F8FAFC', borderBottom: '2px solid #F1F5F9' }}>
               <TableRow>
-                <TableCell sx={{ fontWeight: 800 }}>PFI NUMBER</TableCell>
-                <TableCell sx={{ fontWeight: 800 }}>VEHICLE MODEL</TableCell>
-                <TableCell sx={{ fontWeight: 800 }}>SUPPLIER</TableCell>
-                <TableCell align="center" sx={{ fontWeight: 800 }}>QTY</TableCell>
-                <TableCell align="right" sx={{ fontWeight: 800 }}>TOTAL VALUE</TableCell>
-                <TableCell align="center" sx={{ fontWeight: 800 }}>STATUS</TableCell>
-                {user.role === 'superadmin' && <TableCell align="center" sx={{ fontWeight: 800 }}>ACTIONS</TableCell>}
+                <TableCell sx={{ fontWeight: 800, color: 'text.secondary', fontSize: '0.75rem', py: 2.5 }}>PFI NUMBER</TableCell>
+                <TableCell sx={{ fontWeight: 800, color: 'text.secondary', fontSize: '0.75rem', py: 2.5 }}>VEHICLE MODEL</TableCell>
+                <TableCell sx={{ fontWeight: 800, color: 'text.secondary', fontSize: '0.75rem', py: 2.5 }}>SUPPLIER</TableCell>
+                <TableCell align="center" sx={{ fontWeight: 800, color: 'text.secondary', fontSize: '0.75rem', py: 2.5 }}>QTY</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 800, color: 'text.secondary', fontSize: '0.75rem', py: 2.5 }}>TOTAL VALUE</TableCell>
+                <TableCell align="center" sx={{ fontWeight: 800, color: 'text.secondary', fontSize: '0.75rem', py: 2.5 }}>STATUS</TableCell>
+                {user.role === 'superadmin' && <TableCell align="center" sx={{ fontWeight: 800, color: 'text.secondary', fontSize: '0.75rem', py: 2.5 }}>ACTIONS</TableCell>}
               </TableRow>
             </TableHead>
             <TableBody>
