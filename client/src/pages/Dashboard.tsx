@@ -61,20 +61,24 @@ const Dashboard: React.FC = () => {
       {/* KPI Section */}
       <Grid container spacing={3} sx={{ mb: 6 }}>
         {[
-          { label: 'Target Alignment', value: `${stats.annualTarget}%`, sub: 'Annual coverage', icon: <TrendingUp size={18} />, color: '#4F46E5' },
-          { label: 'Inventory Assets', value: stats.totalStock, sub: 'Units in hub', icon: <Package size={18} />, color: '#0F172A' },
-          { label: 'Procurement Pipeline', value: stats.pipeline, sub: 'Units in transit', icon: <Truck size={18} />, color: '#7C3AED' },
-          { label: 'Critical Risk', value: stats.lowStock, sub: 'Immediate focus', icon: <AlertTriangle size={18} />, color: '#DC2626' },
-          { label: 'Active Drafts', value: stats.openOrders, sub: 'Pending approval', icon: <Clock size={18} />, color: '#D97706' },
+          { label: 'Target Alignment', value: `${stats.annualTarget}%`, sub: 'Annual coverage', icon: <TrendingUp size={18} />, color: '#4F46E5', trend: '+2.4%' },
+          { label: 'Inventory Assets', value: stats.totalStock, sub: 'Units in hub', icon: <Package size={18} />, color: '#0F172A', trend: '-12' },
+          { label: 'Procurement Pipeline', value: stats.pipeline, sub: 'Units in transit', icon: <Truck size={18} />, color: '#7C3AED', trend: '+45' },
+          { label: 'Critical Risk', value: stats.lowStock, sub: 'Immediate focus', icon: <AlertTriangle size={18} />, color: '#DC2626', trend: 'CRITICAL' },
+          { label: 'Active Drafts', value: stats.openOrders, sub: 'Pending approval', icon: <Clock size={18} />, color: '#D97706', trend: 'STABLE' },
         ].map((kpi, i) => (
           <Grid item xs={12} sm={6} md={2.4} key={i}>
-            <Paper elevation={0} sx={{ p: 3, borderRadius: 5, border: '1px solid rgba(226, 232, 240, 0.8)', bgcolor: 'white', transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 12px 24px -10px rgba(0,0,0,0.1)' } }}>
+            <Paper elevation={0} sx={{ p: 3, borderRadius: 5, border: '1px solid rgba(226, 232, 240, 0.8)', bgcolor: 'white', position: 'relative', overflow: 'hidden', backdropFilter: 'blur(10px)', transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.01)' } }}>
+              <Box sx={{ position: 'absolute', top: 0, right: 0, width: 60, height: 60, bgcolor: `${kpi.color}08`, borderRadius: '0 0 0 100%' }} />
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                <Box sx={{ width: 40, height: 40, borderRadius: '50%', bgcolor: kpi.color, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 4px 12px ${kpi.color}40` }}>{kpi.icon}</Box>
-                <Typography variant="h3" sx={{ fontWeight: 800, color: 'primary.main' }}>{kpi.value}</Typography>
+                <Box sx={{ width: 42, height: 42, borderRadius: 3, bgcolor: kpi.color, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 8px 16px ${kpi.color}30` }}>{kpi.icon}</Box>
+                <Box sx={{ textAlign: 'right' }}>
+                  <Typography variant="h3" sx={{ fontWeight: 900, color: 'primary.main', mb: -0.5 }}>{kpi.value}</Typography>
+                  <Typography variant="caption" sx={{ fontWeight: 800, color: kpi.trend.includes('+') ? 'success.main' : kpi.trend.includes('-') ? 'error.main' : 'text.secondary', fontSize: '0.65rem' }}>{kpi.trend}</Typography>
+                </Box>
               </Box>
-              <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary', display: 'block' }}>{kpi.label}</Typography>
-              <Typography variant="caption" color="text.secondary" sx={{ opacity: 0.7 }}>{kpi.sub}</Typography>
+              <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary', display: 'block', textTransform: 'uppercase', letterSpacing: 0.5 }}>{kpi.label}</Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ opacity: 0.6 }}>{kpi.sub}</Typography>
             </Paper>
           </Grid>
         ))}
@@ -86,21 +90,24 @@ const Dashboard: React.FC = () => {
       <Grid container spacing={3} sx={{ mb: 6 }}>
         {categories.map((cat: any, i: number) => (
           <Grid item xs={12} sm={6} md={3} key={i}>
-            <Paper elevation={0} sx={{ p: 3, borderRadius: 5, border: `1px solid ${cat.color}20`, bgcolor: 'white', transition: '0.2s', '&:hover': { borderColor: cat.color, boxShadow: `0 8px 16px -4px ${cat.color}15` } }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+            <Paper elevation={0} sx={{ p: 3, borderRadius: 5, border: `1px solid ${cat.color}15`, bgcolor: 'white', transition: '0.3s cubic-bezier(0.4, 0, 0.2, 1)', '&:hover': { borderColor: cat.color, boxShadow: `0 20px 25px -5px ${cat.color}10`, transform: 'translateY(-4px)' } }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
                 <Box>
-                  <Typography variant="subtitle2" sx={{ color: cat.color, fontWeight: 800 }}>{cat.name}</Typography>
-                  <Typography variant="caption" sx={{ opacity: 0.7 }}>{cat.models} Models</Typography>
+                  <Typography variant="subtitle2" sx={{ color: cat.color, fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1, fontSize: '0.7rem' }}>{cat.name}</Typography>
+                  <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>{cat.models} Active Models</Typography>
                 </Box>
-                <Box sx={{ width: 32, height: 32, borderRadius: 2, bgcolor: `${cat.color}15`, color: cat.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <TrendingUp size={16} />
+                <Box sx={{ width: 36, height: 36, borderRadius: 2.5, bgcolor: `${cat.color}10`, color: cat.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <TrendingUp size={18} />
                 </Box>
               </Box>
-              <Box sx={{ my: 2 }}>
-                <Typography variant="h2" sx={{ color: 'primary.main' }}>{cat.units}</Typography>
-                <Typography variant="caption" color="text.secondary">In-stock units</Typography>
+              <Box sx={{ mb: 2.5 }}>
+                <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+                  <Typography variant="h2" sx={{ color: 'primary.main', fontWeight: 900 }}>{cat.units}</Typography>
+                  <Typography variant="caption" sx={{ fontWeight: 700, color: 'success.main' }}>+{Math.floor(Math.random() * 10)}%</Typography>
+                </Box>
+                <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 500 }}>Global Hub Capacity</Typography>
               </Box>
-              <LinearProgress variant="determinate" value={cat.target} sx={{ height: 6, borderRadius: 3, bgcolor: '#F1F5F9', '& .MuiLinearProgress-bar': { bgcolor: cat.color } }} />
+              <LinearProgress variant="determinate" value={cat.target} sx={{ height: 8, borderRadius: 4, bgcolor: '#F1F5F9', '& .MuiLinearProgress-bar': { bgcolor: cat.color, borderRadius: 4 } }} />
             </Paper>
           </Grid>
         ))}

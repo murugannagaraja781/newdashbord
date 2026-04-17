@@ -43,8 +43,8 @@ const Analytics: React.FC = () => {
       
       <Grid container spacing={4}>
         {/* Main Trends Chart */}
-        <Grid item xs={12}>
-          <Paper sx={{ p: 5, borderRadius: 5, height: 600, border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+        <Grid item xs={12} lg={6}>
+          <Paper sx={{ p: { xs: 3, md: 4 }, borderRadius: 5, height: 600, border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
               <Box>
                 <Typography variant="h3" sx={{ fontWeight: 800 }}>Order vs Pipeline Volume</Typography>
@@ -77,9 +77,9 @@ const Analytics: React.FC = () => {
         </Grid>
 
         {/* Division Distribution */}
-        <Grid item xs={12}>
-          <Paper sx={{ p: 4, borderRadius: 5, height: 600, border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center' }}>
-            <Box sx={{ flex: 1, textAlign: { xs: 'center', md: 'left' } }}>
+        <Grid item xs={12} lg={6}>
+          <Paper sx={{ p: { xs: 3, md: 4 }, borderRadius: 5, height: 600, border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ width: '100%', mb: 2 }}>
               <Typography variant="h3" sx={{ fontWeight: 800, mb: 1 }}>Division Market Share</Typography>
               <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>Distribution of fleet assets across business lines</Typography>
               <Grid container spacing={2}>
@@ -93,7 +93,7 @@ const Analytics: React.FC = () => {
                 ))}
               </Grid>
             </Box>
-            <Box sx={{ flex: 1.2, width: '100%', height: '100%', minHeight: 400 }}>
+            <Box sx={{ width: '100%', flex: 1, minHeight: 0 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie

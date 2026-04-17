@@ -18,7 +18,8 @@ import {
   Paper,
   Button,
   Badge,
-  Grid
+  Grid,
+  TextField
 } from '@mui/material';
 import { 
   BarChart3, 
@@ -49,13 +50,15 @@ const Layout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     setOpen(!isMobile);
   }, [isMobile]);
 
   useEffect(() => {
-    const socket = io('http://localhost:5001');
+    const socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5001');
     socket.on('stock_updated', (data) => {
       toast.success(`Stock Update: ${data.name} is now ${data.stock}`, {
         duration: 4000,
@@ -203,8 +206,32 @@ const Layout: React.FC = () => {
         {!isMobile && (
           <Box sx={{ position: 'sticky', top: 0, mb: 4, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 2, zIndex: 10 }}>
             <Paper elevation={0} sx={{ p: 1, px: 2, borderRadius: 4, display: 'flex', alignItems: 'center', gap: 1, bgcolor: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(10px)', border: '1px solid rgba(226, 232, 240, 0.4)' }}>
-              <IconButton size="small" sx={{ p: 1, color: 'text.secondary' }}><SearchIcon size={18} /></IconButton>
-              <IconButton size="small" sx={{ p: 1, color: 'text.secondary' }}>
+              {showSearch ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: 200 }}>
+                  <TextField 
+                    size="small" 
+                    placeholder="Search..." 
+                    autoFocus
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onBlur={() => !searchTerm && setShowSearch(false)}
+                    variant="standard" 
+                    InputProps={{ disableUnderline: true, style: { fontSize: '0.85rem' } }}
+                  />
+                  <IconButton size="small" onClick={() => { if(searchTerm) { navigate(`/inventory?q=${searchTerm}`); setShowSearch(false); setSearchTerm(''); } else { setShowSearch(false); } }}>
+                    <SearchIcon size={18} />
+                  </IconButton>
+                </Box>
+              ) : (
+                <IconButton size="small" sx={{ p: 1, color: 'text.secondary' }} onClick={() => setShowSearch(true)}>
+                  <SearchIcon size={18} />
+                </IconButton>
+              )}
+              <IconButton 
+                size="small" 
+                sx={{ p: 1, color: 'text.secondary' }}
+                onClick={() => navigate('/alerts')}
+              >
                 <Badge variant="dot" color="error"><Bell size={18} /></Badge>
               </IconButton>
               <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
