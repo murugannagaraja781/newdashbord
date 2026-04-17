@@ -284,7 +284,7 @@ const Layout: React.FC = () => {
             <BottomNavigationAction label="More" icon={<MenuIcon size={20} />} value="more" onClick={() => setOpen(!open)} sx={{ '&.Mui-selected': { color: 'primary.main', fontWeight: 800 } }} />
           </BottomNavigation>
           
-          <Drawer anchor="bottom" open={open && isMobile} onClose={() => setOpen(false)} slotProps={{ paper: { sx: { borderRadius: '24px 24px 0 0', p: 3, maxHeight: '70vh', boxShadow: '0 -10px 40px rgba(0,0,0,0.1)' } } }}>
+          <Drawer anchor="bottom" open={open && isMobile} onClose={() => setOpen(false)} PaperProps={{ sx: { borderRadius: '24px 24px 0 0', p: 3, maxHeight: '70vh', boxShadow: '0 -10px 40px rgba(0,0,0,0.1)' } }}>
             <Box sx={{ width: 40, height: 4, bgcolor: '#E2E8F0', borderRadius: 2, mx: 'auto', mb: 3 }} />
             <Typography variant="h4" sx={{ mb: 3, fontWeight: 800 }}>Control Center</Typography>
             <Grid container spacing={1} sx={{ px: 2, pb: 2 }}>

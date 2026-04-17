@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Box, 
   Typography, 
@@ -34,16 +34,32 @@ const UserManagement: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [newPassword, setNewPassword] = useState('');
   const [newUser, setNewUser] = useState({ name: '', email: '', role: 'manager' });
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+  const fetchUsers = async () => {
+    try {
+      const { data } = await API.get('/auth/users');
+      setUsers(data);
+    } catch (err) {
+      console.error('Failed to load personnel');
+    }
+  };
 
-  const handleCreate = () => {
-    setUsers([...users, { ...newUser, id: Date.now(), joined: new Date().toISOString().split('T')[0] }]);
-    setOpen(false);
-    setNewUser({ name: '', email: '', role: 'manager' });
+  const handleCreate = async () => {
+    try {
+      await API.post('/auth/register', newUser);
+      await fetchUsers();
+      setOpen(false);
+      setNewUser({ name: '', email: '', role: 'manager' });
+    } catch (err) {
+      console.error('Registration failed');
+    }
   };
 
   const handleResetPassword = async () => {
     try {
-      // In real app, call API.patch(`/auth/reset-user-password/${selectedUser.id}`)
+      await API.patch(`/auth/reset-user-password/${selectedUser.id}`, { newPassword });
       alert(`Password for ${selectedUser.name} has been updated.`);
       setResetOpen(false);
       setNewPassword('');
@@ -140,9 +156,9 @@ const UserManagement: React.FC = () => {
         <DialogTitle sx={{ fontWeight: 800, px: 3, pt: 3 }}>Register New Personnel</DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
-            <TextField label="Full Name" fullWidth size="small" value={newUser.name} onChange={(e) => setNewUser({...newUser, name: e.target.value})} />
-            <TextField label="Email Address" fullWidth size="small" value={newUser.email} onChange={(e) => setNewUser({...newUser, email: e.target.value})} />
-            <TextField select label="Role" fullWidth size="small" value={newUser.role} onChange={(e) => setNewUser({...newUser, role: e.target.value})}>
+            <TextField label="Full Name" fullWidth value={newUser.name} onChange={(e) => setNewUser({...newUser, name: e.target.value})} />
+            <TextField label="Email Address" fullWidth value={newUser.email} onChange={(e) => setNewUser({...newUser, email: e.target.value})} />
+            <TextField select label="Role" fullWidth value={newUser.role} onChange={(e) => setNewUser({...newUser, role: e.target.value})}>
               <MenuItem value="manager">Manager</MenuItem>
               <MenuItem value="superadmin">Superadmin</MenuItem>
             </TextField>

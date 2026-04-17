@@ -294,7 +294,7 @@ const OrdersPage: React.FC = () => {
             <Grid item xs={12}>
               <TextField label="PFI Number" fullWidth size="small" value={newOrder.pfiNumber} onChange={(e) => setNewOrder({...newOrder, pfiNumber: e.target.value.toUpperCase()})} />
             </Grid>
-            <Grid size={{ xs: 6 }}>
+            <Grid item xs={6}>
               <TextField select label="Vehicle Model" fullWidth size="small" value={newOrder.modelId} onChange={(e) => {
                 const model = models.find(m => m._id === e.target.value);
                 setNewOrder({...newOrder, modelId: e.target.value, unitPrice: model?.fobPrice || 0});
@@ -302,7 +302,7 @@ const OrdersPage: React.FC = () => {
                 {models.map(m => <MenuItem key={m._id} value={m._id}>{m.name}</MenuItem>)}
               </TextField>
             </Grid>
-            <Grid size={{ xs: 6 }}>
+            <Grid item xs={6}>
               <TextField select label="Supplier" fullWidth size="small" value={newOrder.supplierId} onChange={(e) => setNewOrder({...newOrder, supplierId: e.target.value})}>
                 {suppliers.map(s => <MenuItem key={s._id} value={s._id}>{s.name} ({s.division})</MenuItem>)}
               </TextField>
