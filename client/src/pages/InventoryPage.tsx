@@ -161,13 +161,13 @@ const InventoryPage: React.FC = () => {
       <Grid container spacing={3}>
         {loading ? (
           [1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-            <Grid item xs={12} sm={6} md={3} key={i}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
               <Skeleton variant="rectangular" height={220} sx={{ borderRadius: 4 }} />
             </Grid>
           ))
         ) : filteredModels.length > 0 ? (
           filteredModels.map((model) => (
-            <Grid item xs={12} sm={6} md={3} key={model._id}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={model._id}>
               <Card sx={{ height: '100%', borderRadius: 5, border: '1px solid rgba(226, 232, 240, 0.7)', transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', '&:hover': { boxShadow: '0 20px 25px -5px rgba(0,0,0,0.05)', transform: 'translateY(-4px)' }, overflow: 'hidden' }}>
                 <CardContent sx={{ p: 3 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
@@ -214,7 +214,7 @@ const InventoryPage: React.FC = () => {
             </Grid>
           ))
         ) : (
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Box sx={{ textAlign: 'center', py: 8 }}>
               <Typography variant="h4" color="text.secondary">No vehicle models matching your search.</Typography>
             </Box>
@@ -235,11 +235,11 @@ const InventoryPage: React.FC = () => {
               <MenuItem value="HT">Heavy Truck (HT)</MenuItem>
               <MenuItem value="SM">Special Machinery (SM)</MenuItem>
             </TextField>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
+            <Grid container spacing={2.5} sx={{ mt: 1 }}>
+              <Grid size={{ xs: 6 }}>
                 <TextField label="Initial Stock" type="number" fullWidth size="small" value={newModel.stock} onChange={(e) => setNewModel({ ...newModel, stock: parseInt(e.target.value) })} />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={{ xs: 6 }}>
                 <TextField label="FOB Price (₹)" type="number" fullWidth size="small" value={newModel.fobPrice} onChange={(e) => setNewModel({ ...newModel, fobPrice: parseInt(e.target.value) })} error={!!formErrors.fobPrice} helperText={formErrors.fobPrice} />
               </Grid>
             </Grid>

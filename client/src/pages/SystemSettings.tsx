@@ -74,7 +74,7 @@ const SystemSettings: React.FC = () => {
         </Box>
 
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               label="Company Name"
               fullWidth
@@ -91,7 +91,7 @@ const SystemSettings: React.FC = () => {
               onChange={(e) => setSettings({...settings, currency: e.target.value})}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               label="Global Low Stock Threshold (Units)"
               type="number"
@@ -120,10 +120,10 @@ const SystemSettings: React.FC = () => {
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>Update your account password or device biometrics.</Typography>
           
           <Grid container spacing={2} sx={{ mb: 3 }}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField label="Old Password" type="password" fullWidth size="small" value={passwords.old} onChange={(e) => setPasswords({...passwords, old: e.target.value})} />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField label="New Password" type="password" fullWidth size="small" value={passwords.new} onChange={(e) => setPasswords({...passwords, new: e.target.value})} />
             </Grid>
           </Grid>

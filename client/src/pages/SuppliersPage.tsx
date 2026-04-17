@@ -125,13 +125,13 @@ const SuppliersPage: React.FC = () => {
       <Grid container spacing={3}>
         {loading ? (
           [1,2,3].map(i => (
-            <Grid item xs={12} md={4} key={i}>
+            <Grid size={{ xs: 12, md: 4 }} key={i}>
               <Skeleton variant="rectangular" height={260} sx={{ borderRadius: 4 }} />
             </Grid>
           ))
         ) : suppliers.length > 0 ? (
           suppliers.map((supplier) => (
-            <Grid item xs={12} md={4} key={supplier._id}>
+            <Grid size={{ xs: 12, md: 4 }} key={supplier._id}>
               <Card sx={{ height: '100%', borderRadius: 4, border: '1px solid #E2E8F0', transition: 'all 0.2s', '&:hover': { boxShadow: '0 12px 20px -5px rgba(0,0,0,0.08)' } }}>
                 <CardContent sx={{ p: 3 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
@@ -190,7 +190,7 @@ const SuppliersPage: React.FC = () => {
             </Grid>
           ))
         ) : (
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Box sx={{ textAlign: 'center', py: 10, bgcolor: 'white', borderRadius: 4, border: '1px dashed #E2E8F0' }}>
               <Typography variant="h4" color="text.secondary">No partners onboarded yet.</Typography>
             </Box>

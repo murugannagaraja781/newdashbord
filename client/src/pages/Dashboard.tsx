@@ -67,7 +67,7 @@ const Dashboard: React.FC = () => {
           { label: 'Critical Risk', value: stats.lowStock, sub: 'Immediate focus', icon: <AlertTriangle size={18} />, color: '#DC2626', trend: 'CRITICAL' },
           { label: 'Active Drafts', value: stats.openOrders, sub: 'Pending approval', icon: <Clock size={18} />, color: '#D97706', trend: 'STABLE' },
         ].map((kpi, i) => (
-          <Grid item xs={12} sm={6} md={2.4} key={i}>
+          <Grid size={{ xs: 12, sm: 6, md: 2.4 }} key={i}>
             <Paper elevation={0} sx={{ p: 3, borderRadius: 5, border: '1px solid rgba(226, 232, 240, 0.8)', bgcolor: 'white', position: 'relative', overflow: 'hidden', backdropFilter: 'blur(10px)', transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.01)' } }}>
               <Box sx={{ position: 'absolute', top: 0, right: 0, width: 60, height: 60, bgcolor: `${kpi.color}08`, borderRadius: '0 0 0 100%' }} />
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
@@ -89,7 +89,7 @@ const Dashboard: React.FC = () => {
       </Typography>
       <Grid container spacing={3} sx={{ mb: 6 }}>
         {categories.map((cat: any, i: number) => (
-          <Grid item xs={12} sm={6} md={3} key={i}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
             <Paper elevation={0} sx={{ p: 3, borderRadius: 5, border: `1px solid ${cat.color}15`, bgcolor: 'white', transition: '0.3s cubic-bezier(0.4, 0, 0.2, 1)', '&:hover': { borderColor: cat.color, boxShadow: `0 20px 25px -5px ${cat.color}10`, transform: 'translateY(-4px)' } }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
                 <Box>

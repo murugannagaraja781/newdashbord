@@ -157,11 +157,13 @@ const Layout: React.FC = () => {
                           primary={item.text} 
                           slotProps={{
                             primary: { 
-                              fontSize: '0.9rem', 
-                              fontWeight: isActive ? 800 : 600,
-                              color: isActive ? 'primary.main' : 'text.secondary',
+                              sx: { 
+                                fontSize: '0.9rem', 
+                                fontWeight: isActive ? 800 : 600,
+                                color: isActive ? 'primary.main' : 'text.secondary',
+                              } 
                             }
-                          }} 
+                          }}
                         />
                       )}
                       {open && isActive && <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'secondary.main', boxShadow: '0 0 10px #10B981' }} />}
@@ -216,7 +218,7 @@ const Layout: React.FC = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     onBlur={() => !searchTerm && setShowSearch(false)}
                     variant="standard" 
-                    InputProps={{ disableUnderline: true, style: { fontSize: '0.85rem' } }}
+                    slotProps={{ input: { disableUnderline: true, style: { fontSize: '0.85rem' } } }}
                   />
                   <IconButton size="small" onClick={() => { if(searchTerm) { navigate(`/inventory?q=${searchTerm}`); setShowSearch(false); setSearchTerm(''); } else { setShowSearch(false); } }}>
                     <SearchIcon size={18} />
@@ -285,9 +287,9 @@ const Layout: React.FC = () => {
           <Drawer anchor="bottom" open={open && isMobile} onClose={() => setOpen(false)} slotProps={{ paper: { sx: { borderRadius: '24px 24px 0 0', p: 3, maxHeight: '70vh', boxShadow: '0 -10px 40px rgba(0,0,0,0.1)' } } }}>
             <Box sx={{ width: 40, height: 4, bgcolor: '#E2E8F0', borderRadius: 2, mx: 'auto', mb: 3 }} />
             <Typography variant="h4" sx={{ mb: 3, fontWeight: 800 }}>Control Center</Typography>
-            <Grid container spacing={2}>
+            <Grid container spacing={1} sx={{ px: 2, pb: 2 }}>
               {navItems.map((item) => (
-                <Grid item xs={4} key={item.text}>
+                <Grid size={{ xs: 4 }} key={item.text}>
                   <Box onClick={() => { navigate(item.path); setOpen(false); }} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, p: 2, borderRadius: 3, bgcolor: location.pathname === item.path ? 'primary.light' : '#F1F5F9' }}>
                     <Box sx={{ color: location.pathname === item.path ? 'primary.main' : 'inherit' }}>{item.icon}</Box>
                     <Typography variant="caption" sx={{ fontWeight: 700, fontSize: '0.7rem' }}>{item.text}</Typography>

@@ -188,7 +188,7 @@ const OrdersPage: React.FC = () => {
       {loading ? (
         <Grid container spacing={2}>
           {[1,2,3,4].map(i => (
-            <Grid item xs={12} key={i}>
+            <Grid size={{ xs: 12 }} key={i}>
               <Skeleton variant="rectangular" height={80} sx={{ borderRadius: 3 }} />
             </Grid>
           ))}
@@ -196,7 +196,7 @@ const OrdersPage: React.FC = () => {
       ) : isMobile ? (
         <Grid container spacing={2}>
           {filteredOrders.map((order) => (
-            <Grid item xs={12} key={order._id}>
+            <Grid size={{ xs: 12 }} key={order._id}>
               <Card sx={{ borderRadius: 4, border: '1px solid #E2E8F0', position: 'relative' }}>
                 <CardContent sx={{ p: 2.5 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
@@ -291,10 +291,10 @@ const OrdersPage: React.FC = () => {
         <DialogTitle sx={{ fontWeight: 800, px: 3, pt: 3 }}>{editMode ? 'Modify PFI Record' : 'Register New PFI'}</DialogTitle>
         <DialogContent sx={{ px: 3 }}>
           <Grid container spacing={2.5} sx={{ mt: 0.5 }}>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <TextField label="PFI Number" fullWidth size="small" value={newOrder.pfiNumber} onChange={(e) => setNewOrder({...newOrder, pfiNumber: e.target.value.toUpperCase()})} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <TextField select label="Vehicle Model" fullWidth size="small" value={newOrder.modelId} onChange={(e) => {
                 const model = models.find(m => m._id === e.target.value);
                 setNewOrder({...newOrder, modelId: e.target.value, unitPrice: model?.fobPrice || 0});
@@ -302,18 +302,18 @@ const OrdersPage: React.FC = () => {
                 {models.map(m => <MenuItem key={m._id} value={m._id}>{m.name}</MenuItem>)}
               </TextField>
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <TextField select label="Supplier" fullWidth size="small" value={newOrder.supplierId} onChange={(e) => setNewOrder({...newOrder, supplierId: e.target.value})}>
                 {suppliers.map(s => <MenuItem key={s._id} value={s._id}>{s.name} ({s.division})</MenuItem>)}
               </TextField>
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <TextField label="Quantity" type="number" fullWidth size="small" value={newOrder.quantity} onChange={(e) => setNewOrder({...newOrder, quantity: parseInt(e.target.value) || 1})} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <TextField label="Unit Price (FOB ₹)" type="number" fullWidth size="small" value={newOrder.unitPrice} onChange={(e) => setNewOrder({...newOrder, unitPrice: parseInt(e.target.value) || 0})} />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <TextField select label="Order Status" fullWidth size="small" value={newOrder.status} onChange={(e) => setNewOrder({...newOrder, status: e.target.value})}>
                 <MenuItem value="Pending">Pending Approval</MenuItem>
                 <MenuItem value="Confirmed">Confirmed / Paid</MenuItem>
