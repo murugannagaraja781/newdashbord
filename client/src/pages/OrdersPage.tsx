@@ -27,7 +27,7 @@ import {
   IconButton,
   Divider
 } from '@mui/material';
-import { FilePlus, Search, Edit2, Trash2, Clock, CheckCircle2, Truck, AlertCircle } from 'lucide-react';
+import { FilePlus, Search, Edit2, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import API from '../api/axios';
 
@@ -170,7 +170,11 @@ const OrdersPage: React.FC = () => {
             placeholder="Search PFI # or Model..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            InputProps={{ startAdornment: <Search size={16} style={{ marginRight: 8, color: '#64748B' }} /> }}
+            slotProps={{
+              input: {
+                startAdornment: <Search size={16} style={{ marginRight: 8, color: '#64748B' }} />,
+              }
+            }}
             sx={{ width: 260, bgcolor: 'white', '& .MuiOutlinedInput-root': { borderRadius: 3 } }}
           />
           {user.role === 'superadmin' && (
@@ -195,7 +199,7 @@ const OrdersPage: React.FC = () => {
             <Grid item xs={12} key={order._id}>
               <Card sx={{ borderRadius: 4, border: '1px solid #E2E8F0', position: 'relative' }}>
                 <CardContent sx={{ p: 2.5 }}>
-                  <Box display="flex" justifyContent="space-between" mb={1.5}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 800, color: 'primary.main' }}>{order.orderId}</Typography>
                     <Chip 
                       label={order.status} 
@@ -211,7 +215,7 @@ const OrdersPage: React.FC = () => {
                   
                   <Divider sx={{ mb: 1.5 }} />
                   
-                  <Box display="flex" justifyContent="space-between" alignItems="center">
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography variant="h5" sx={{ fontWeight: 800 }}>
                       ₹{((order.items?.[0]?.quantity || 0) * (order.items?.[0]?.unitPrice || 0)).toLocaleString()}
                     </Typography>
@@ -283,7 +287,7 @@ const OrdersPage: React.FC = () => {
       )}
 
       {/* Order Dialog with Edit/Add modes */}
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm" PaperProps={{ sx: { borderRadius: 4 } }}>
+      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm" slotProps={{ paper: { sx: { borderRadius: 4 } } }}>
         <DialogTitle sx={{ fontWeight: 800, px: 3, pt: 3 }}>{editMode ? 'Modify PFI Record' : 'Register New PFI'}</DialogTitle>
         <DialogContent sx={{ px: 3 }}>
           <Grid container spacing={2.5} sx={{ mt: 0.5 }}>

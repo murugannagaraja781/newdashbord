@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { 
   Box, 
   Drawer, 
-  AppBar, 
-  Toolbar, 
   List, 
   Typography, 
   Divider, 
@@ -13,8 +11,6 @@ import {
   ListItemIcon, 
   ListItemText,
   Avatar,
-  Menu,
-  MenuItem,
   BottomNavigation,
   BottomNavigationAction,
   useMediaQuery,
@@ -22,8 +18,6 @@ import {
   Paper,
   Button,
   Badge,
-  Breadcrumbs,
-  Link,
   Grid
 } from '@mui/material';
 import { 
@@ -55,7 +49,6 @@ const Layout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem('user') || '{}');
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   useEffect(() => {
     setOpen(!isMobile);
@@ -74,13 +67,6 @@ const Layout: React.FC = () => {
   }, []);
 
   const toggleDrawer = () => setOpen(!open);
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
-  const handleClose = () => setAnchorEl(null);
-
-  const getPageName = (path: string) => {
-    const item = navItems.find(i => i.path === path);
-    return item ? item.text : 'Dashboard';
-  };
 
   const navItems = [
     { text: 'Analytics', icon: <BarChart3 size={22} />, path: '/dashboard' },
@@ -166,10 +152,12 @@ const Layout: React.FC = () => {
                       {open && (
                         <ListItemText 
                           primary={item.text} 
-                          primaryTypographyProps={{ 
-                            fontSize: '0.9rem', 
-                            fontWeight: isActive ? 800 : 600,
-                            color: isActive ? 'primary.main' : 'text.secondary',
+                          slotProps={{
+                            primary: { 
+                              fontSize: '0.9rem', 
+                              fontWeight: isActive ? 800 : 600,
+                              color: isActive ? 'primary.main' : 'text.secondary',
+                            }
                           }} 
                         />
                       )}
@@ -267,7 +255,7 @@ const Layout: React.FC = () => {
             <BottomNavigationAction label="More" icon={<MenuIcon size={20} />} value="more" onClick={() => setOpen(!open)} sx={{ '&.Mui-selected': { color: 'primary.main', fontWeight: 800 } }} />
           </BottomNavigation>
           
-          <Drawer anchor="bottom" open={open && isMobile} onClose={() => setOpen(false)} PaperProps={{ sx: { borderRadius: '24px 24px 0 0', p: 3, maxHeight: '70vh', boxShadow: '0 -10px 40px rgba(0,0,0,0.1)' } }}>
+          <Drawer anchor="bottom" open={open && isMobile} onClose={() => setOpen(false)} slotProps={{ paper: { sx: { borderRadius: '24px 24px 0 0', p: 3, maxHeight: '70vh', boxShadow: '0 -10px 40px rgba(0,0,0,0.1)' } } }}>
             <Box sx={{ width: 40, height: 4, bgcolor: '#E2E8F0', borderRadius: 2, mx: 'auto', mb: 3 }} />
             <Typography variant="h4" sx={{ mb: 3, fontWeight: 800 }}>Control Center</Typography>
             <Grid container spacing={2}>

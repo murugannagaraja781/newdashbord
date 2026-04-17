@@ -30,7 +30,7 @@ const AlertsPage: React.FC = () => {
     fetchData();
   }, []);
 
-  if (loading) return <Box display="flex" justifyContent="center" mt={10}><CircularProgress /></Box>;
+  if (loading) return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 10 }}><CircularProgress /></Box>;
 
   return (
     <Box>
@@ -62,7 +62,7 @@ const AlertsPage: React.FC = () => {
                 <AlertCircle size={24} />
               </Box>
               <Box sx={{ flex: 1 }}>
-                <Box display="flex" alignItems="center" gap={1}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{model.name}</Typography>
                   <Chip label={model.code} size="small" variant="outlined" sx={{ height: 20, fontSize: '0.65rem' }} />
                 </Box>

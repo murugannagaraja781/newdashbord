@@ -15,7 +15,6 @@ import {
   Truck, 
   AlertTriangle, 
   Clock,
-  ExternalLink,
   Trash2
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';

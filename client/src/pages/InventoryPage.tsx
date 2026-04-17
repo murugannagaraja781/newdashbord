@@ -11,9 +11,6 @@ import {
   Tabs, 
   Tab, 
   IconButton, 
-  Divider,
-  Alert,
-  Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
@@ -127,8 +124,10 @@ const InventoryPage: React.FC = () => {
             placeholder="Search VIN/Model..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            InputProps={{
-              startAdornment: <Search size={16} style={{ marginRight: 8, color: '#64748B' }} />,
+            slotProps={{
+              input: {
+                startAdornment: <Search size={16} style={{ marginRight: 8, color: '#64748B' }} />,
+              }
             }}
             sx={{ width: 260, bgcolor: 'white', '& .MuiOutlinedInput-root': { borderRadius: 3 } }}
           />
@@ -169,7 +168,7 @@ const InventoryPage: React.FC = () => {
             <Grid item xs={12} sm={6} md={3} key={model._id}>
               <Card sx={{ height: '100%', borderRadius: 4, border: '1px solid #e2e8f0', transition: 'all 0.2s', '&:hover': { boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)', transform: 'translateY(-4px)' } }}>
                 <CardContent>
-                  <Box display="flex" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 1 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
                     <Typography variant="caption" sx={{ fontFamily: 'monospace', fontWeight: 700, px: 1, py: 0.5, bgcolor: '#F1F5F9', borderRadius: 1.5, color: 'primary.main' }}>
                       {model.code}
                     </Typography>
@@ -182,7 +181,7 @@ const InventoryPage: React.FC = () => {
                   <Typography variant="h4" sx={{ fontWeight: 800, mb: 2 }}>{model.name}</Typography>
                   
                   <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: 3, mb: 2 }}>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                       <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>Current Stock</Typography>
                       <Chip 
                         label={model.stock <= model.threshold ? 'LOW' : 'STABLE'} 
@@ -191,19 +190,19 @@ const InventoryPage: React.FC = () => {
                         sx={{ height: 18, fontSize: '0.65rem', fontWeight: 800 }}
                       />
                     </Box>
-                    <Box display="flex" alignItems="center" justifyContent="center" gap={3}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 3 }}>
                       <IconButton size="small" onClick={() => handleStockUpdate(model._id, model.stock - 1)} sx={{ border: '1px solid #E2E8F0' }}><Minus size={16} /></IconButton>
                       <Typography variant="h2" sx={{ fontWeight: 800 }}>{model.stock}</Typography>
                       <IconButton size="small" onClick={() => handleStockUpdate(model._id, model.stock + 1)} sx={{ border: '1px solid #E2E8F0' }}><Plus size={16} /></IconButton>
                     </Box>
                   </Box>
 
-                  <Box display="flex" justifyContent="space-between" alignItems="center">
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Box>
                       <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary' }}>Pipeline</Typography>
                       <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{model.pipeline || 0} Units</Typography>
                     </Box>
-                    <Box textAlign="right">
+                    <Box sx={{ textAlign: 'right' }}>
                       <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary' }}>FOB Price</Typography>
                       <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'primary.main' }}>₹{(model.fobPrice || 0).toLocaleString()}</Typography>
                     </Box>
@@ -222,7 +221,7 @@ const InventoryPage: React.FC = () => {
       </Grid>
 
       {/* Add Model Dialog with Validation & Loading */}
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs" PaperProps={{ sx: { borderRadius: 4 } }}>
+      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs" slotProps={{ paper: { sx: { borderRadius: 4 } } }}>
         <DialogTitle sx={{ fontWeight: 800, px: 3, pt: 3 }}>Onboard New Model</DialogTitle>
         <DialogContent sx={{ px: 3 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5, mt: 1 }}>

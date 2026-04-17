@@ -72,8 +72,10 @@ const theme = createTheme({
             boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
           },
         },
-        containedPrimary: {
-          background: 'linear-gradient(135deg, #1E293B 0%, #020617 100%)',
+        contained: {
+          '&.MuiButton-containedPrimary': {
+            background: 'linear-gradient(135deg, #1E293B 0%, #020617 100%)',
+          },
         },
       },
     },

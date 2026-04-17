@@ -15,12 +15,11 @@ import {
   TextField, 
   MenuItem,
   IconButton,
-  Tooltip,
   Skeleton,
   CircularProgress,
   Divider
 } from '@mui/material';
-import { Truck, Plus, Mail, Phone, Globe, Trash2, Edit2, ShieldCheck, MapPin } from 'lucide-react';
+import { Truck, Plus, Mail, Phone, Trash2, Edit2, ShieldCheck, MapPin } from 'lucide-react';
 import toast from 'react-hot-toast';
 import API from '../api/axios';
 
@@ -135,8 +134,8 @@ const SuppliersPage: React.FC = () => {
             <Grid item xs={12} md={4} key={supplier._id}>
               <Card sx={{ height: '100%', borderRadius: 4, border: '1px solid #E2E8F0', transition: 'all 0.2s', '&:hover': { boxShadow: '0 12px 20px -5px rgba(0,0,0,0.08)' } }}>
                 <CardContent sx={{ p: 3 }}>
-                  <Box display="flex" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 3 }}>
-                    <Box display="flex" alignItems="center" gap={2}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                       <Avatar sx={{ width: 48, height: 48, bgcolor: 'primary.light', color: 'primary.main' }}>
                         <Truck size={24} />
                       </Avatar>
@@ -160,15 +159,15 @@ const SuppliersPage: React.FC = () => {
                   </Box>
 
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                    <Box display="flex" alignItems="center" gap={1.5}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                       <Mail size={16} style={{ color: '#64748B' }} />
                       <Typography variant="body2" sx={{ fontWeight: 500 }}>{supplier.email}</Typography>
                     </Box>
-                    <Box display="flex" alignItems="center" gap={1.5}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                       <Phone size={16} style={{ color: '#64748B' }} />
                       <Typography variant="body2" sx={{ fontWeight: 500 }}>{supplier.phone}</Typography>
                     </Box>
-                    <Box display="flex" alignItems="center" gap={1.5}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                       <MapPin size={16} style={{ color: '#64748B' }} />
                       <Typography variant="body2" sx={{ fontWeight: 500 }}>{supplier.country}</Typography>
                     </Box>
@@ -176,12 +175,12 @@ const SuppliersPage: React.FC = () => {
 
                   <Divider sx={{ my: 2.5 }} />
 
-                  <Box display="flex" justifyContent="space-between" alignItems="center">
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Box>
                       <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary' }}>Category</Typography>
                       <Chip label={supplier.category} size="small" sx={{ fontWeight: 700, fontSize: '0.65rem' }} />
                     </Box>
-                    <Box textAlign="right">
+                    <Box sx={{ textAlign: 'right' }}>
                       <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary' }}>Contract State</Typography>
                       <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'success.main' }}>Active Partner</Typography>
                     </Box>
@@ -200,7 +199,7 @@ const SuppliersPage: React.FC = () => {
       </Grid>
 
       {/* Supplier Form Dialog */}
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs" PaperProps={{ sx: { borderRadius: 4 } }}>
+      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs" slotProps={{ paper: { sx: { borderRadius: 4 } } }}>
         <DialogTitle sx={{ fontWeight: 800, px: 3, pt: 3 }}>
           {editMode ? 'Update Partner Profile' : 'Onboard Strategic Partner'}
         </DialogTitle>

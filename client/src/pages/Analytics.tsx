@@ -1,12 +1,8 @@
-import React from 'react';
 import { 
   Box, 
   Paper, 
   Typography, 
-  Grid,
-  Card,
-  CardContent,
-  useTheme
+  Grid
 } from '@mui/material';
 import { 
   AreaChart, 
@@ -16,8 +12,6 @@ import {
   CartesianGrid, 
   Tooltip, 
   ResponsiveContainer,
-  BarChart,
-  Bar,
   Cell,
   PieChart,
   Pie
@@ -42,7 +36,6 @@ const categoryData = [
 const COLORS = ['#0F172A', '#10B981', '#3B82F6', '#F59E0B'];
 
 const Analytics: React.FC = () => {
-  const theme = useTheme();
 
   return (
     <Box>
@@ -52,7 +45,7 @@ const Analytics: React.FC = () => {
         {/* Main Trends Chart */}
         <Grid item xs={12}>
           <Paper sx={{ p: 5, borderRadius: 5, height: 600, border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
               <Box>
                 <Typography variant="h3" sx={{ fontWeight: 800 }}>Order vs Pipeline Volume</Typography>
                 <Typography variant="body2" color="text.secondary">Monthly performance and forecasting trends</Typography>
@@ -88,7 +81,7 @@ const Analytics: React.FC = () => {
           <Paper sx={{ p: 4, borderRadius: 5, height: 600, border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center' }}>
             <Box sx={{ flex: 1, textAlign: { xs: 'center', md: 'left' } }}>
               <Typography variant="h3" sx={{ fontWeight: 800, mb: 1 }}>Division Market Share</Typography>
-              <Typography variant="body1" color="text.secondary" mb={4}>Distribution of fleet assets across business lines</Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>Distribution of fleet assets across business lines</Typography>
               <Grid container spacing={2}>
                 {categoryData.map((item, index) => (
                   <Grid item xs={6} key={item.name}>
@@ -110,11 +103,12 @@ const Analytics: React.FC = () => {
                     innerRadius={100}
                     outerRadius={160}
                     paddingAngle={8}
+                    cornerRadius={10}
                     dataKey="value"
                     stroke="none"
                   >
-                    {categoryData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} cornerRadius={10} />
+                    {categoryData.map((_, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
                   <Tooltip 

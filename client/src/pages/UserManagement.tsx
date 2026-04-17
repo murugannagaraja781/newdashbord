@@ -21,7 +21,7 @@ import {
   Tooltip
 } from '@mui/material';
 import { UserPlus, Trash2, ShieldCheck, Key } from 'lucide-react';
-import API from '../api/axios';
+// import API from '../api/axios';
 
 const UserManagement: React.FC = () => {
   const [users, setUsers] = useState([
@@ -109,7 +109,7 @@ const UserManagement: React.FC = () => {
                   <Chip label="Active" size="small" variant="outlined" color="success" sx={{ height: 20, fontSize: '0.65rem' }} />
                 </TableCell>
                 <TableCell align="right">
-                  <Box display="flex" justifyContent="flex-end" gap={1}>
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
                     <Tooltip title="Reset Password">
                       <IconButton 
                         size="small" 
