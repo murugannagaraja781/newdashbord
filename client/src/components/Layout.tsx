@@ -289,7 +289,7 @@ const Layout: React.FC = () => {
             <Typography variant="h4" sx={{ mb: 3, fontWeight: 800 }}>Control Center</Typography>
             <Grid container spacing={1} sx={{ px: 2, pb: 2 }}>
               {navItems.map((item) => (
-                <Grid size={{ xs: 4 }} key={item.text}>
+                <Grid item xs={4} key={item.text}>
                   <Box onClick={() => { navigate(item.path); setOpen(false); }} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, p: 2, borderRadius: 3, bgcolor: location.pathname === item.path ? 'primary.light' : '#F1F5F9' }}>
                     <Box sx={{ color: location.pathname === item.path ? 'primary.main' : 'inherit' }}>{item.icon}</Box>
                     <Typography variant="caption" sx={{ fontWeight: 700, fontSize: '0.7rem' }}>{item.text}</Typography>

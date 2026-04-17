@@ -43,7 +43,7 @@ const Analytics: React.FC = () => {
       
       <Grid container spacing={4}>
         {/* Main Trends Chart */}
-        <Grid size={{ xs: 12, lg: 6 }}>
+        <Grid item xs={12} lg={6}>
           <Paper sx={{ p: { xs: 3, md: 4 }, borderRadius: 5, height: 600, border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
               <Box>
@@ -77,14 +77,14 @@ const Analytics: React.FC = () => {
         </Grid>
 
         {/* Division Distribution */}
-        <Grid size={{ xs: 12, lg: 6 }}>
+        <Grid item xs={12} lg={6}>
           <Paper sx={{ p: { xs: 3, md: 4 }, borderRadius: 5, height: 600, border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ width: '100%', mb: 2 }}>
               <Typography variant="h3" sx={{ fontWeight: 800, mb: 1 }}>Division Market Share</Typography>
               <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>Distribution of fleet assets across business lines</Typography>
               <Grid container spacing={2}>
                 {categoryData.map((item, index) => (
-                  <Grid size={{ xs: 6 }} key={item.name}>
+                  <Grid item xs={6} key={item.name}>
                     <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: 3, borderLeft: `4px solid ${COLORS[index]}` }}>
                       <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700 }}>{item.name}</Typography>
                       <Typography variant="h5" sx={{ fontWeight: 800 }}>{item.value} Units</Typography>
