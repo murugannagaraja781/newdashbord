@@ -21,7 +21,7 @@ import {
   Tooltip
 } from '@mui/material';
 import { UserPlus, Trash2, ShieldCheck, Key } from 'lucide-react';
-// import API from '../api/axios';
+import API from '../api/axios';
 
 const UserManagement: React.FC = () => {
   const [users, setUsers] = useState([
@@ -69,21 +69,21 @@ const UserManagement: React.FC = () => {
           variant="contained" 
           startIcon={<UserPlus size={18} />} 
           onClick={() => setOpen(true)}
-          sx={{ borderRadius: 2 }}
+          sx={{ borderRadius: 3, height: 44, px: 3 }}
         >
-          Add New User
+          Register Personnel
         </Button>
       </Box>
 
-      <TableContainer component={Paper} sx={{ borderRadius: 4, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+      <TableContainer component={Paper} elevation={0} sx={{ borderRadius: 5, border: '1px solid #E2E8F0', overflow: 'hidden' }}>
         <Table>
-          <TableHead sx={{ bgcolor: '#f8fafc' }}>
+          <TableHead sx={{ bgcolor: '#F8FAFC', borderBottom: '2px solid #F1F5F9' }}>
             <TableRow>
-              <TableCell sx={{ fontWeight: 700 }}>Personnel</TableCell>
-              <TableCell sx={{ fontWeight: 700 }}>Role</TableCell>
-              <TableCell sx={{ fontWeight: 700 }}>Joined Date</TableCell>
-              <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
-              <TableCell align="right" sx={{ fontWeight: 700 }}>Actions</TableCell>
+              <TableCell sx={{ fontWeight: 800, color: 'text.secondary', fontSize: '0.75rem', py: 2.5 }}>PERSONNEL</TableCell>
+              <TableCell sx={{ fontWeight: 800, color: 'text.secondary', fontSize: '0.75rem', py: 2.5 }}>ROLE</TableCell>
+              <TableCell sx={{ fontWeight: 800, color: 'text.secondary', fontSize: '0.75rem', py: 2.5 }}>JOINED DATE</TableCell>
+              <TableCell sx={{ fontWeight: 800, color: 'text.secondary', fontSize: '0.75rem', py: 2.5 }}>STATUS</TableCell>
+              <TableCell align="right" sx={{ fontWeight: 800, color: 'text.secondary', fontSize: '0.75rem', py: 2.5 }}>ACTIONS</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -136,8 +136,8 @@ const UserManagement: React.FC = () => {
       </TableContainer>
 
       {/* Add User Dialog */}
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs">
-        <DialogTitle sx={{ fontWeight: 700 }}>Add New Personnel</DialogTitle>
+      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs" slotProps={{ paper: { sx: { borderRadius: 4 } } }}>
+        <DialogTitle sx={{ fontWeight: 800, px: 3, pt: 3 }}>Register New Personnel</DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
             <TextField label="Full Name" fullWidth size="small" value={newUser.name} onChange={(e) => setNewUser({...newUser, name: e.target.value})} />
@@ -155,8 +155,8 @@ const UserManagement: React.FC = () => {
       </Dialog>
 
       {/* Reset Password Dialog */}
-      <Dialog open={resetOpen} onClose={() => setResetOpen(false)} fullWidth maxWidth="xs">
-        <DialogTitle sx={{ fontWeight: 700 }}>Reset Password for {selectedUser?.name}</DialogTitle>
+      <Dialog open={resetOpen} onClose={() => setResetOpen(false)} fullWidth maxWidth="xs" slotProps={{ paper: { sx: { borderRadius: 4 } } }}>
+        <DialogTitle sx={{ fontWeight: 800, px: 3, pt: 3 }}>Reset Password for {selectedUser?.name}</DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
           <TextField 
             label="New Password" 
